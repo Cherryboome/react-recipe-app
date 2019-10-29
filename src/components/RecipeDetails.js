@@ -2,22 +2,45 @@ import React, { Component } from "react";
 import { recipe } from "../tempDetails";
 
 export default class RecipeDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      recipe: recipe,
-      url: `https://www.food2fork.com/api/get?key=bc7130022842c928e51df2f917ca8696&rId=${this.props.id}`
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     recipe: recipe,
+  //     url: `https://www.food2fork.com/api/get?key=bc7130022842c928e51df2f917ca8696&rId=${this.props.id}`
+  //   };
+  // }
+
+  // async componentDidMount() {
+  //   try {
+  //     const data = await fetch(this.state.url);
+  //     const jsonData = await data.json();
+
+  //     this.setState({
+  //       recipe: jsonData.recipe
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+  state = {
+    recipe: recipe
+  };
 
   async componentDidMount() {
+    const { id } = this.props;
+    const url = `https://www.food2fork.com/api/get?key=bc7130022842c928e51df2f917ca8696&rId=${id}`;
+
     try {
-      const data = await fetch(this.state.url);
+      const data = await fetch(url);
       const jsonData = await data.json();
 
-      this.setState({
-        recipe: jsonData.recipe
-      });
+      this.setState(
+        (state, props) => {
+          return { recipe: jsonData.recipe };
+        },
+        () => {}
+      );
     } catch (error) {
       console.log(error);
     }
